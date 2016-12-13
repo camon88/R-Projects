@@ -1,0 +1,95 @@
+---
+title: "Activity 4"
+author: "Dani Thornton, Elizabeth Payne, Seth Goodman, Jonathan Ward"
+date: "Wednesday, February 10, 2016"
+output: html_document
+---
+Question 1
+```{r}
+mydata<-read.csv("Colleges.csv")
+attach(mydata)
+hist(SAT,main='Density and Histogram of Average SAT for 50 Schools',xlab='SAT',ylab='Density and Frequency')
+xfit<-seq(1100,1400,by=0.1)
+yfit<-dnorm(xfit,mean=mean(SAT),sd=sd(SAT))
+par(new=T)
+plot(xfit,yfit,axes=F,type='l',col='blue',xlab='SAT',ylab='Density and Frequency')
+```
+
+
+Question 2
+```{r}
+mydata<-read.csv("Colleges.csv")
+attach(mydata)
+
+percent <- function(x, digits = 2, format = "f", ...) {
+  paste0(formatC(100 * x, format = format, digits = digits, ...), "%")
+}
+
+
+f<-function(x){
+  meanX<- mean(x)
+ 
+  deviation<- sd(x)
+  
+  oneDev<- meanX - deviation
+  print(oneDev)
+  twoDev<- meanX - (deviation * 2)
+  print(twoDev)
+  threeDev<-  meanX - (deviation * 3)
+  print(threeDev)
+  
+result1<- pnorm(oneDev, mean = meanX, sd = deviation, lower.tail = FALSE)
+    
+result2<- pnorm(twoDev, mean = meanX, sd = deviation, lower.tail = FALSE)
+      
+result3<- pnorm(threeDev, mean = meanX, sd = deviation, lower.tail = FALSE)
+
+first<-sum(x > oneDev)
+second<-sum(x > twoDev)
+third<-sum(x > threeDev)
+
+percent1<-first/length(x)  
+percent2<-second/length(x)  
+percent3<-third/length(x)  
+
+print(percent(percent1))
+print(percent(percent2))
+print(percent(percent3))
+}
+
+vector<- c(2,34,1,3,4,32,6,6,7,85,2,4)
+f(vector)
+
+
+
+
+
+##Question 3
+
+scores<-mydata$SAT
+f(scores)
+
+##Question 4
+
+##They do seem to be reasonably close to what you would expect to see from understanding the empirical rule. From the calculations we have 100%, 98% and 82% which is not perfect but close enough to what the emipircal rule tells us to expect. 
+
+
+##Question 5
+
+percent(sum(scores > 1350)/length(scores))
+
+
+##Question 6
+
+pnorm(mean(mydata$SAT),sd(mydata$SAT)) 
+
+
+##7
+## Calculate Exactly 90th percentile SAT Score
+
+quantile(mydata$SAT, c(.90))
+
+qnorm(mean(mydata$SAT),sd(mydata$SAT), lower.tail = FALSE) 
+
+
+```
